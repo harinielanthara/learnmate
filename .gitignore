@@ -1,0 +1,7 @@
+.env
+__pycache__/
+*.pyc
+backend/storage/*
+!backend/storage/.gitkeep
+.venv/
+/project1/

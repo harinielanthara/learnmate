@@ -1,0 +1,20 @@
+# Phase 1: only Postgres+pgvector runs in Docker.
+# FastAPI, Streamlit run locally in the `learnmode` env; Ollama runs natively on Windows (uses GPU).
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: learnmate-db
+    environment:
+      POSTGRES_USER: learnmate
+      POSTGRES_PASSWORD: learnmate
+      POSTGRES_DB: learnmate
+    ports: ["5432:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U learnmate"]
+      interval: 5s
+      retries: 10
+volumes:
+  pgdata:
